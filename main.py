@@ -1,10 +1,7 @@
-import time
 import telebot
 import requests
 from telebot import types
-from pyowm import OWM
 from pyowm.utils.config import get_default_config
-from datetime import datetime
 
 
 config_dict = get_default_config()
@@ -14,7 +11,6 @@ url = 'http://api.openweathermap.org/data/2.5/weather'
 api_weather = 'd182349a37cfd1427c8d6240607a3353'
 
 bot = telebot.TeleBot('5901828532:AAGQ0LUgxceXeGcmFeGE3AVLFdVpGRRhAJ0')
-
 
 
 @bot.message_handler(commands=['start'])
