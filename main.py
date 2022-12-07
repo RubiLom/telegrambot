@@ -1,5 +1,8 @@
+# - Telebot v2 beta
 import telebot
 import requests
+import random
+from bs4 import BeautifulSoup as b
 from telebot import types
 from pyowm.utils.config import get_default_config
 
@@ -25,12 +28,13 @@ def start(message):
 @bot.message_handler(commands=['help'])
 def get_user_help(message):
     help_text = '''<b>Вот мой весь функционал:
-/start - Запуск бота.
-/help - Команда для запроса помощи.
+/start - Запуск бота
+/help - Команда для запроса помощи
 /website - Получить ссылку на сайт (RubiLom'a)
 /weather - Получить погоду на сегодня
 /schedule - Получить расписание
-/debt - Получить информацию о долгах по учебе</b>
+/debt - Получить информацию о долгах по учебе
+/anektod - Получить рандомный анектод</b>
     '''
     bot.send_message(message.chat.id, help_text, parse_mode='html')
 
@@ -48,6 +52,17 @@ def get_user_debt(message):
     markup.add(types.InlineKeyboardButton("Долги по учебе", url="https://classroom.google.com/u/1/w/MTQyNjcxNjk1NDg3/t/all"))
     bot.send_message(message.chat.id, 'Чтобы узнать свои долги по учебе --> Нажмите на кнопку!', reply_markup=markup)
 
+
+@bot.message_handler(commands=['anektod'])
+def get_user_anektod(message):
+    URL_TASK = 'https://www.anekdot.ru/'
+    r = requests.get(URL_TASK)
+    soup = b(r.text, 'html.parser')
+    anektod = soup.find_all('div', class_='text')
+    clear_anekdots = [c.text for c in anektod]
+    random.shuffle(clear_anekdots)
+    random_jokes = random.choice(clear_anekdots)
+    bot.send_message(message.chat.id, random_jokes)
 
 @bot.message_handler(commands=['weather'])
 def weather_send(message):
