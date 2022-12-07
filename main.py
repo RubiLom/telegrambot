@@ -56,25 +56,26 @@ def get_user_debt(message):
 
 @bot.message_handler(commands=['anektod'])
 def get_user_anektod(message):
-    URL_TASK = 'https://www.anekdot.ru/'
+    URL_TASK = 'https://etnosvit.com/anekdoty.html'
     r = requests.get(URL_TASK)
     soup = b(r.text, 'html.parser')
-    anektod = soup.find_all('div', class_='text')
+    anektod = soup.find_all('div', class_='sue-panel-content sue-content-wrap')
     clear_anekdots = [c.text for c in anektod]
     random.shuffle(clear_anekdots)
     random_jokes = random.choice(clear_anekdots)
     bot.send_message(message.chat.id, random_jokes)
 
+
 @bot.message_handler(commands=['news'])
 def get_user_news(message):
-    URL_NEWS = 'https://www.ukr.net/news/dnipro.html'
+    URL_NEWS = 'https://www.056.ua/ru/news'
     r = requests.get(URL_NEWS)
     soup = b(r.text, 'html.parser')
-    news = soup.find_all('a', class_='im-tl_a')
-    clear_news = [c.text for c in news]
-    random.shuffle(clear_news)
-    random_news = clear_news[0]
-    bot.send_message(message.chat.id, f'Последняя новость: {random_news}')
+    news_title = soup.find_all('a', class_='c-news-block__title')
+    clear_news_title = [c.text for c in news_title]
+    random.shuffle(clear_news_title)
+    first_news_title = clear_news_title[0]
+    bot.send_message(message.chat.id, f'<b>{first_news_title}</b>', parse_mode='html')
 
 
 @bot.message_handler(commands=['weather'])
