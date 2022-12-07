@@ -65,7 +65,6 @@ def get_user_anektod(message):
     random_jokes = random.choice(clear_anekdots)
     bot.send_message(message.chat.id, random_jokes)
 
-
 @bot.message_handler(commands=['news'])
 def get_user_news(message):
     URL_NEWS = 'https://www.ukr.net/news/dnipro.html'
@@ -75,7 +74,7 @@ def get_user_news(message):
     clear_news = [c.text for c in news]
     random.shuffle(clear_news)
     random_news = clear_news[0]
-    bot.send_message(message.chat.id, f'Последние новости: "{random_news}"')
+    bot.send_message(message.chat.id, f'Последняя новость: {random_news}')
 
 
 @bot.message_handler(commands=['weather'])
