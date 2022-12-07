@@ -34,7 +34,8 @@ def get_user_help(message):
 /weather - Получить погоду на сегодня
 /schedule - Получить расписание
 /debt - Получить информацию о долгах по учебе
-/anektod - Получить рандомный анектод</b>
+/anektod - Получить рандомный анектод
+/news - Получить последнию новость</b>
     '''
     bot.send_message(message.chat.id, help_text, parse_mode='html')
 
@@ -63,6 +64,19 @@ def get_user_anektod(message):
     random.shuffle(clear_anekdots)
     random_jokes = random.choice(clear_anekdots)
     bot.send_message(message.chat.id, random_jokes)
+
+
+@bot.message_handler(commands=['news'])
+def get_user_news(message):
+    URL_NEWS = 'https://www.ukr.net/news/dnipro.html'
+    r = requests.get(URL_NEWS)
+    soup = b(r.text, 'html.parser')
+    news = soup.find_all('a', class_='im-tl_a')
+    clear_news = [c.text for c in news]
+    random.shuffle(clear_news)
+    random_news = clear_news[0]
+    bot.send_message(message.chat.id, f'Последние новости: "{random_news}"')
+
 
 @bot.message_handler(commands=['weather'])
 def weather_send(message):
