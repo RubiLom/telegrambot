@@ -1,7 +1,9 @@
 # - Telebot v2 beta
+import os
 import telebot
 import requests
 import random
+import time
 from bs4 import BeautifulSoup as b
 from telebot import types
 from pyowm.utils.config import get_default_config
@@ -15,6 +17,8 @@ api_weather = 'd182349a37cfd1427c8d6240607a3353'
 
 bot = telebot.TeleBot('5901828532:AAGQ0LUgxceXeGcmFeGE3AVLFdVpGRRhAJ0')
 
+time = time.strftime('%a')
+print(time)
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -112,13 +116,15 @@ def weather_send(message):
 
 
 @bot.message_handler(commands=['schedule'])
-def schedule(message):
+def get_user_schedule(message):
     markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("Понедельник", callback_data="monday"),
+    markup.add(types.InlineKeyboardButton("НА СЕГОДНЯ!", callback_data="today"),
+               types.InlineKeyboardButton("Понедельник", callback_data="monday"),
                types.InlineKeyboardButton("Вторник", callback_data="tuesday"),
                types.InlineKeyboardButton("Среда", callback_data="wednesday"),
                types.InlineKeyboardButton("Четверг", callback_data="thursday"),
                types.InlineKeyboardButton("Пятница", callback_data="friday"))
+
     bot.send_message(message.chat.id, 'Выберете расписание на какой день.', reply_markup=markup)
 
 
@@ -126,65 +132,77 @@ def schedule(message):
 def callback_inline(call):
      if call.message:
         if call.data == "monday":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="""
-Понедельник
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=mon)
+     if call.message:
+        if call.data == "tuesday":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=tue)
+     if call.message:
+        if call.data == "wednesday":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=wed)
+     if call.message:
+        if call.data == "thursday":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=thu)
+     if call.message:
+        if call.data == "friday":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=fri)
+     if call.message:
+        if call.data == "today":
+            if time == "Mon":
+                bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=mon)
+            elif time == "Tue":
+                bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=tue)
+            elif time == "Wed":
+                bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=wed)
+            elif time == "Thu":
+                bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=thu)
+            elif time == "Fri":
+                bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=fri)
+            else:
+                bot.send_message(message.chat.id, 'Сегодня выходной, отдохни блядина.')
+
+mon = """Понедельник
 1 - 8:30 - Геометрия
 2 - 9:25 - Защита Украины
 3 - 10:25 - Немецкий 
 4 - 11:30 - География/Химия 
 5 - 12:25 - Информатика 
 6 - 13:20 - Физика 
-7 - 14:15 - Английский
-""")
+7 - 14:15 - Английский"""
 
-     if call.message:
-        if call.data == "tuesday":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="""
-Вторник
+tue = """Вторник
 1 - 8:30 - Биология
 2 - 9:25 - Гражданская обучение
 3 - 10:25 - География
 4 - 11:30 - Физра 
 5 - 12:25 - Физика 
 6 - 13:20 - Зарубежка 
-7 - 14:15 - История/Защита Украины
-""")
-     if call.message:
-        if call.data == "wednesday":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="""
-Среда
+7 - 14:15 - История/Защита Украины"""
+
+wed = """Среда
 1 - 8:30 - Рисование
 2 - 9:25 - Албебра
 3 - 10:25 - Немецкий
 4 - 11:30 - Физра 
 5 - 12:25 - Украинский язык
 6 - 13:20 - Химия
-7 - 14:15 - Английский
-""")
-     if call.message:
-        if call.data == "thursday":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="""
-Четверг
+7 - 14:15 - Английский"""
+
+thu = """Четверг
 1 - 8:30 - Украинская литература
 2 - 9:25 - Физика
 3 - 10:25 - Немецкий
 4 - 11:30 - Информатика
 5 - 12:25 - Физра
 6 - 13:20 - Украинский язык
-7 - 14:15 - История
-""")
-     if call.message:
-        if call.data == "friday":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="""
-Пятница
+7 - 14:15 - История"""
+
+fri = """Пятница
 1 - 8:30 - Украинский язык
 2 - 9:25 - Геометрия
 3 - 10:25 - Немецкий
 4 - 11:30 - История 
 5 - 12:25 - Биология 
 6 - 13:20 - Английский
-7 - 14:15 - Немецкий
-""")
-
+7 - 14:15 - Немецкий"""
 
 bot.polling(none_stop=True)
