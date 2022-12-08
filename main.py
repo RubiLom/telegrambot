@@ -17,8 +17,9 @@ api_weather = 'd182349a37cfd1427c8d6240607a3353'
 
 bot = telebot.TeleBot('5901828532:AAGQ0LUgxceXeGcmFeGE3AVLFdVpGRRhAJ0')
 
+time_lesson = time.strftime('%H:%M')
 time = time.strftime('%a')
-print(time)
+print(time_lesson)
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -35,7 +36,7 @@ def get_user_help(message):
 /start - Запуск бота
 /help - Команда для запроса помощи
 /website - Получить ссылку на сайт (RubiLom'a)
-/weather - Получить погоду на сегодня
+/weather_report - Получить погоду на сегодня
 /schedule - Получить расписание
 /debt - Получить информацию о долгах по учебе
 /anektod - Получить рандомный анектод
@@ -82,7 +83,7 @@ def get_user_news(message):
     bot.send_message(message.chat.id, f'<b>{first_news_title}</b>', parse_mode='html')
 
 
-@bot.message_handler(commands=['weather'])
+@bot.message_handler(commands=['weather_report'])
 def weather_send(message):
     s_city = 'Днепр'
     try:
