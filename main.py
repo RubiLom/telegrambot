@@ -40,7 +40,8 @@ def get_user_help(message):
 /schedule - Получить расписание
 /debt - Получить информацию о долгах по учебе
 /anektod - Получить рандомный анектод
-/news - Получить последнию новость</b>
+/news - Получить последнию новость
+</b>
     '''
     bot.send_message(message.chat.id, help_text, parse_mode='html')
 
