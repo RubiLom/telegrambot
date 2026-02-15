@@ -160,7 +160,7 @@ def callback_inline(call):
             elif time == "Fri":
                 bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text=fri)
             else:
-                bot.send_message(message.chat.id, 'Сегодня выходной, отдохни блядина.')
+                bot.send_message(message.chat.id, 'Сегодня выходной, отдохни.')
 
 mon = """Понедельник
 1 - 8:30 - Геометрия
