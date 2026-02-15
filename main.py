@@ -15,7 +15,7 @@ config_dict['language'] = 'ru'
 url = 'http://api.openweathermap.org/data/2.5/weather'
 api_weather = 'd182349a37cfd1427c8d6240607a3353'
 
-bot = telebot.TeleBot('5901828532:AAGQ0LUgxceXeGcmFeGE3AVLFdVpGRRhAJ0')
+bot = telebot.TeleBot('')
 
 time_lesson = time.strftime('%H:%M')
 time = time.strftime('%a')
