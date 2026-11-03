@@ -13,7 +13,7 @@ config_dict = get_default_config()
 config_dict['language'] = 'ru'
 
 url = 'http://api.openweathermap.org/data/2.5/weather'
-api_weather = 'd182349a37cfd1427c8d6240607a3353'
+api_weather = ''
 
 bot = telebot.TeleBot('')
 
